@@ -1,0 +1,10 @@
+# Static site for the APN KT HTML walkthrough + written guideline
+services:
+  - type: web
+    name: apn-opportunity-lark-guide
+    runtime: static
+    plan: free
+    branch: main
+    buildCommand: echo "static site"
+    staticPublishPath: .
+    autoDeployTrigger: commit

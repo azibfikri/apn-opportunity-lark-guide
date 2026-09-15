@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>APN Opportunity Lark Base Submission Knowledge Transfer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1b2a4a;
+      --cream: #f4efe4;
+      --paper: #fffdf8;
+      --orange: #e87722;
+      --mute: #5a564e;
+      --line: rgba(27,42,74,.12);
+      --ok: #1f7a3a;
+      --bad: #b42318;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--navy);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+    }
+    header.top {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 12px 6vw;
+      background: rgba(244,239,228,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    header.top b { letter-spacing: -.02em; }
+    header.top nav { display: flex; gap: 4px; flex-wrap: wrap; margin-left: auto; }
+    header.top a {
+      color: var(--navy); text-decoration: none;
+      font: 600 11px/1 "IBM Plex Mono", monospace;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 8px 10px; border-radius: 99px;
+    }
+    header.top a:hover, header.top a.on { background: var(--navy); color: #ffd7b0; }
+    .kicker { margin: 0; font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(32px, 5.4vw, 68px); line-height: .98; letter-spacing: -.04em; }
+    h2 { font-size: clamp(28px, 4vw, 48px); line-height: 1.05; letter-spacing: -.03em; }
+    h3 { font-size: clamp(16px, 1.6vw, 20px); }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    section { padding: 72px 6vw; }
+    .wrap { max-width: 1120px; margin: 0 auto; }
+    .hero {
+      min-height: 100vh;
+      padding: 0;
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(100deg, rgba(27,42,74,.94) 0 56%, rgba(27,42,74,.28) 56% 100%),
+        url('assets/apn-kt-cover.png') right center / cover no-repeat #1b2a4a;
+      color: #fffbf7;
+    }
+    .hero .wrap { padding: 120px 6vw 64px; width: 100%; max-width: none; }
+    .hero p.lead { max-width: 36ch; margin-top: 18px; color: #e8dfd2; font-size: 18px; }
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 800px) { .g2, .g3 { grid-template-columns: 1fr; } }
+    .tile {
+      background: var(--paper);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 0 0 1px var(--line);
+    }
+    .tile p { color: var(--mute); line-height: 1.4; margin-top: 8px; }
+    .tile.ink { background: var(--navy); color: #fffbf7; box-shadow: none; }
+    .tile.ink p { color: #e8dfd2; }
+    .tile.ok { background: #dff3e3; box-shadow: none; }
+    .tile.bad { background: #ffe1dc; box-shadow: none; }
+    .tile.warn { background: #ffe8d4; box-shadow: none; }
+    .big { font-size: clamp(48px, 8vw, 88px); font-weight: 700; letter-spacing: -.05em; line-height: .9; }
+    .hit {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 16px; border-radius: 8px;
+      font: 700 14px/1 "IBM Plex Sans", sans-serif;
+    }
+    .hit.retry { background: var(--orange); color: #fff; }
+    .hit.update { background: var(--navy); color: #ffd7b0; }
+    .hit.ghost { background: #efe6d4; color: var(--navy); }
+    .peek {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 0 0 1px var(--line);
+    }
+    .peek-bar {
+      background: var(--navy); color: #ffd7b0;
+      font: 600 11px/1 "IBM Plex Mono", monospace;
+      padding: 12px 14px;
+      display: flex; justify-content: space-between;
+    }
+    .peek-body { padding: 16px; display: grid; gap: 12px; }
+    .fld span { display: block; font: 600 10px/1 "IBM Plex Mono", monospace; color: var(--mute); letter-spacing: .05em; margin-bottom: 4px; }
+    .fld b { display: block; background: #f6f1e8; border-radius: 8px; padding: 10px 12px; }
+    .peek-foot { padding: 12px 14px; display: flex; justify-content: flex-end; gap: 8px; background: #f6f1e8; }
+    .split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; align-items: start; }
+    @media (max-width: 800px) { .split { grid-template-columns: 1fr; } }
+    .cream { background: var(--cream); }
+    .paper { background: #efe8d8; }
+    .night { background: var(--navy); color: #fffbf7; }
+    .night p { color: #e8dfd2; }
+    .head { margin-bottom: 28px; max-width: 44ch; }
+    .head h2 { margin-top: 8px; }
+    .linkbox {
+      display: block;
+      margin: 8px 0 22px;
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: var(--navy);
+      color: #ffd7b0;
+      text-decoration: none;
+      font: 600 15px/1.4 "IBM Plex Mono", monospace;
+      word-break: break-all;
+    }
+    .linkbox:hover { color: #fff; }
+    .rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    @media (max-width: 900px) { .rail { grid-template-columns: 1fr 1fr; } }
+    .st {
+      background: var(--paper);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 0 0 1px var(--line);
+    }
+    .st .n { color: var(--orange); font: 700 26px/1 "IBM Plex Sans", sans-serif; }
+    .st h3 { margin: 8px 0 4px; }
+    .st p { color: var(--mute); font-size: 14px; line-height: 1.35; }
+    .st.ink { background: var(--navy); color: #fffbf7; box-shadow: none; }
+    .st.ink p { color: #e8dfd2; }
+    .st.ok { background: #dff3e3; box-shadow: none; }
+    .st.bad { background: #ffe1dc; box-shadow: none; }
+    .st.warn { background: #ffe8d4; box-shadow: none; }
+    footer.end {
+      min-height: 70vh;
+      display: grid; align-items: end;
+      background:
+        linear-gradient(105deg, rgba(27,42,74,.95) 0 58%, rgba(27,42,74,.4) 58% 100%),
+        url('assets/apn-kt-help.png') right center / cover no-repeat #1b2a4a;
+      color: #fffbf7;
+      padding: 80px 6vw 48px;
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <b>APN KT</b>
+    <nav>
+      <a href="#title">Title</a>
+      <a href="#why">Why</a>
+      <a href="#base">Base</a>
+      <a href="#workflows">3 jobs</a>
+      <a href="#create">1 Create</a>
+      <a href="#update">2 Update</a>
+      <a href="#referral">3 Referral</a>
+      <a href="#golive">18 Sep</a>
+      <a href="#tips">Tips</a>
+      <a href="#help">Help</a>
+      <a href="guide.html">Written guide</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="title">
+    <div class="wrap">
+      <p class="kicker">Slide 1 · GAP sales · 14 September 2026</p>
+      <h1>APN Opportunity Lark Base Submission Knowledge Transfer</h1>
+      <p class="lead">Today is training. All sales use this Lark Base on <b>18 September</b>. Until then, please refrain from live deals.</p>
+    </div>
+  </section>
+
+  <section class="paper" id="why">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 2 · Objectives</p>
+        <h2>Why we are here</h2>
+      </div>
+      <div class="g3">
+        <div class="tile ink">
+          <p class="kicker">1</p>
+          <h3>Acknowledge</h3>
+          <p>Make sure everyone acknowledges the new process workflow.</p>
+        </div>
+        <div class="tile ink">
+          <p class="kicker">2</p>
+          <h3>Demonstrate</h3>
+          <p>Show how to submit an AWS opportunity through Lark.</p>
+        </div>
+        <div class="tile warn">
+          <p class="kicker">Then</p>
+          <h3>Open the Base first</h3>
+          <p>Tour the tables. Then the three processes: Create, Update, Referral.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cream" id="base">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 3 · Muqadimmah</p>
+        <h2>First — open the Lark Base</h2>
+      </div>
+      <a class="linkbox" href="https://g-asiapac.sg.larksuite.com/base/Xtx2b48FRabZewsZtqol0lfagOb" target="_blank" rel="noreferrer">https://g-asiapac.sg.larksuite.com/base/Xtx2b48FRabZewsZtqol0lfagOb</a>
+      <div class="g3">
+        <div class="tile">
+          <p class="kicker">Table</p>
+          <h3>APN Oppt Submission Table</h3>
+          <p><b>Form</b> = live send (one-shot Create). <b>Grid + Add Record</b> = draft until Submit is ticked. Watch <span class="mono">Sync_Status</span>, <span class="mono">Sync_Message</span>, <span class="mono">Action</span>.</p>
+        </div>
+        <div class="tile">
+          <p class="kicker">Table</p>
+          <h3>APN Oppt Status Table</h3>
+          <p>AWS talks back here. You do not create rows. Read <span class="mono">AWS_Review_Status</span> after <b>6 hours</b>. Success is not Approved.</p>
+        </div>
+        <div class="tile">
+          <p class="kicker">Table</p>
+          <h3>APN AWS Invitations</h3>
+          <p>Referral only. The row already exists. No Form.</p>
+        </div>
+      </div>
+      <div class="g2" style="margin-top:14px">
+        <div class="tile ink">
+          <p class="kicker">Filter</p>
+          <h3>Top bar → Filter</h3>
+          <p>Examples: Submission <span class="mono">Sync_Status</span> is Failed. Status <span class="mono">AWS_Review_Status</span> is Approved. Invitations = <span class="mono">Customer_Country</span> + <span class="mono">Engagement_Title</span>. Clear a shared Grid filter when you leave.</p>
+        </div>
+        <div class="tile warn">
+          <p class="kicker">Add view</p>
+          <h3>+ next to the view tabs</h3>
+          <p>Add view → Grid. Name it <span class="mono">My Failed</span> or your name. Do not rename or delete the shared Grid. Do not add twenty views in this room.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;color:var(--mute)">Next: a short map of the three workflows. Then we walk each one. Do not create a real customer row today.</p>
+    </div>
+  </section>
+
+  <section class="paper" id="workflows">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 4 · Three workflows</p>
+        <h2>I will walk these three.</h2>
+      </div>
+      <div class="g3">
+        <div class="tile ink">
+          <p class="kicker">1</p>
+          <h3>Create an opportunity</h3>
+          <p>How to submit a new AWS oppt in Lark. Form to send. Grid + Add Record to draft.</p>
+        </div>
+        <div class="tile ink">
+          <p class="kicker">2</p>
+          <h3>Edit an opportunity</h3>
+          <p>How to update an existing oppt in Lark. Only when Status is Approved.</p>
+        </div>
+        <div class="tile warn">
+          <p class="kicker">3 · Sales admin</p>
+          <h3>Referral</h3>
+          <p>Compulsory for sales admin. Extra knowledge for everyone else. Stay if you want.</p>
+        </div>
+      </div>
+      <div class="tile" style="margin-top:16px">
+        <p class="kicker">Questions</p>
+        <h3>Stop me anytime.</h3>
+        <p>Or drop the question in the chat (Google Chat / Lark). I will come back to it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper" id="create">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 5 · Process 1</p>
+        <h2>Create a new opportunity</h2>
+      </div>
+      <div class="rail" style="grid-template-columns:repeat(4,1fr)">
+        <div class="st"><p class="n">1</p><h3>Form</h3><p>Live send. Fill, then Submit.</p></div>
+        <div class="st"><p class="n">2</p><h3>Add Record</h3><p>Grid toolbar. Draft if ticks are off.</p></div>
+        <div class="st"><p class="n">3</p><h3>Sync_Status</h3><p>After send: ~1 min Success or Failed.</p></div>
+        <div class="st ink"><p class="n">4</p><h3>If Failed</h3><p>Peek → fix field → Retry.</p></div>
+      </div>
+      <div class="split" style="margin-top:18px">
+        <div class="peek">
+          <div class="peek-bar"><span>Side Peek · AWS_Opportunity_ID</span><span>top-right</span></div>
+          <div class="peek-body">
+            <div class="fld"><span>Sync_Status</span><b style="color:var(--bad)">Failed</b></div>
+            <div class="fld"><span>Sync_Message</span><b>Customer_Business_Problem: need at least 20 characters.</b></div>
+            <div class="fld"><span>Action</span><b>Create · leave this</b></div>
+          </div>
+          <div class="peek-foot">
+            <span class="hit ghost">Update</span>
+            <span class="hit retry">Retry</span>
+          </div>
+        </div>
+        <div>
+          <div class="tile ok"><h3>Success ≠ Approved</h3><p>AWS has it. Check APN Oppt Status Table <span class="mono">AWS_Review_Status</span> after <b>6 hours</b>.</p></div>
+          <div class="tile bad" style="margin-top:14px"><h3>Wrong button</h3><p>Update on a Failed Create does not move <span class="mono">Sync_Status</span>.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cream" id="update">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 6 · Process 2</p>
+        <h2>Update an existing opportunity</h2>
+      </div>
+      <div class="g3">
+        <div class="tile ok">
+          <p class="kicker" style="color:var(--ok)">Go</p>
+          <p class="big" style="font-size:42px">Approved</p>
+          <p>Then Grid. Side Peek. Edit. Click <span class="hit update">Update</span></p>
+        </div>
+        <div class="tile warn">
+          <p class="kicker">Stop</p>
+          <h3 style="margin-top:10px">Pending submission</h3>
+          <p>Do not Update. Wait on Status.</p>
+        </div>
+        <div class="tile bad">
+          <p class="kicker" style="color:var(--bad)">Stop</p>
+          <p class="big" style="font-size:42px">Failed</p>
+          <p>Create still broken. Retry first.</p>
+        </div>
+      </div>
+      <div class="split" style="margin-top:22px">
+        <div class="peek">
+          <div class="peek-bar"><span>Side Peek · existing opp</span><span>top-right</span></div>
+          <div class="peek-body">
+            <div class="fld"><span>AWS_Review_Status</span><b style="color:var(--ok)">Approved</b></div>
+            <div class="fld"><span>Then</span><b>Wait 1 minute · read Sync_Status</b></div>
+          </div>
+          <div class="peek-foot">
+            <span class="hit ghost">Retry</span>
+            <span class="hit update">Update</span>
+          </div>
+        </div>
+        <div class="tile bad"><h3>If Update Fails</h3><p>Fix the named field. Click <b>Update</b> again. Not Retry.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper" id="referral">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 7 · Process 3</p>
+        <h2>AWS Referral</h2>
+      </div>
+      <div class="rail">
+        <div class="st"><p class="n">1</p><h3>Find the row</h3><p>APN AWS Invitations. Customer_Country + Engagement_Title</p></div>
+        <div class="st"><p class="n">2</p><h3>Accept</h3><p>Decision = Accept</p></div>
+        <div class="st"><p class="n">3</p><h3>Assignee</h3><p>The AM who owns it</p></div>
+        <div class="st warn"><p class="n">4</p><h3>Pending</h3><p>You set Sync_Status</p></div>
+        <div class="st ok"><p class="n">5</p><h3>ID</h3><p>AWS_Opportunity_ID appears</p></div>
+      </div>
+      <div class="g2" style="margin-top:18px">
+        <div class="tile ink"><h3>Then it shows</h3><p><b>Submission</b> now. <b>Status</b> after 6 hours.</p></div>
+        <div class="tile bad"><h3>No Form</h3><p>The invitation row already exists.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="night" id="golive">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 8 · Go-live</p>
+        <h2>18 September</h2>
+      </div>
+      <p class="big" style="max-width:16ch;margin-bottom:18px">All sales use this Base.</p>
+      <p style="max-width:46ch;font-size:20px">Until 18 September, please refrain from using this Lark Base for live opportunities. Today is knowledge transfer. Do not create a real customer row after we leave this room.</p>
+    </div>
+  </section>
+
+  <section class="cream" id="tips">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Slide 9 · Tips</p>
+        <h2>Keep fail / error low</h2>
+      </div>
+      <div class="g3">
+        <div class="tile">
+          <p class="kicker">1</p>
+          <h3>Problem ≥ 20 characters</h3>
+          <p>Customer need must be a real sentence or <span class="mono">Sync_Status</span> Fails.</p>
+        </div>
+        <div class="tile">
+          <p class="kicker">2</p>
+          <h3>Phone E.164</h3>
+          <p class="mono">+601121555525</p>
+          <p>Plus, country code, no spaces.</p>
+        </div>
+        <div class="tile warn">
+          <p class="kicker">3</p>
+          <h3>Launched Stage</h3>
+          <p>Needs an AWS Account ID. Missing ID = Failed.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;color:var(--mute)">Wrong format = Failed. Read <span class="mono">Sync_Message</span>. Fix that field. Right button.</p>
+    </div>
+  </section>
+
+  <footer class="end" id="help">
+    <div class="wrap" style="width:100%">
+      <p class="kicker">Slide 10 · Help</p>
+      <h2 style="margin:10px 0 28px;max-width:18ch">Error, bug, or unclear Sync_Message?</h2>
+      <div class="g2" style="max-width:900px">
+        <div class="tile ink">
+          <p class="kicker">01 · APN TroubleShoot</p>
+          <h3>Ask in this group</h3>
+          <p>Always send three things:</p>
+          <p>1. Your Oppt ID<br>2. Your Status<br>3. Your Sync_Message</p>
+        </div>
+        <div class="tile ink">
+          <p class="kicker">02 · APN flow</p>
+          <h3>Ask Eylia</h3>
+          <p class="big" style="font-size:clamp(28px,4vw,42px);margin:12px 0">+6016-4244515</p>
+          <p>Do not patch AWS_Review_Status by hand.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const links = [...document.querySelectorAll("header.top a")];
+    const ids = links.map((a) => document.querySelector(a.getAttribute("href")));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id));
+      });
+    }, { rootMargin: "-40% 0px -50% 0px" });
+    ids.forEach((el) => el && io.observe(el));
+  </script>
+</body>
+</html>

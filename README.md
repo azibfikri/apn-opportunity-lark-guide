@@ -1,0 +1,13 @@
+# APN Opportunity — Lark Base guidelines
+
+GAP-GUIDE-2026-001 v1.1. Knowledge Transfer HTML for GAP sales (Malaysia, Indonesia, Vietnam).
+
+- Walkthrough: `/` (`index.html`)
+- Written guideline: `/guide.html`
+- A4 PDF: `GAP-GUIDE-2026-001-APN-Opportunity-Lark-Base.pdf`
+
+Live Base: https://g-asiapac.sg.larksuite.com/base/Xtx2b48FRabZewsZtqol0lfagOb
+
+Draft = Grid **+ Add Record** (leave Submit unticked). Live send = Form Submit.
+
+Until 18 September 2026, do not submit a live customer opportunity.
