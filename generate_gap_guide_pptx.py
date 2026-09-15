@@ -95,28 +95,17 @@ def kicker(slide, l, t, w, text, color=ORANGE):
     add_text(slide, l, t, w, Inches(0.28), text.upper(), size=11, bold=True, color=color, font="Calibri")
 
 
-def footer(slide, page, total=12, light=False):
+def footer(slide, light=False):
     col = RGBColor(0xC8, 0xC0, 0xB4) if light else RGBColor(0x8A, 0x84, 0x78)
     add_text(
         slide,
         Inches(0.5),
         Inches(7.18),
-        Inches(9.5),
+        Inches(12.3),
         Inches(0.24),
-        "GAP-GUIDE-2026-001  ·  Internal  ·  v1.1",
+        "Internal  ·  v1.1  ·  © G-AsiaPacific",
         size=10,
         color=col,
-    )
-    add_text(
-        slide,
-        Inches(10.4),
-        Inches(7.18),
-        Inches(2.4),
-        Inches(0.24),
-        f"{page} / {total}",
-        size=10,
-        color=col,
-        align=PP_ALIGN.RIGHT,
     )
 
 
@@ -155,7 +144,7 @@ def build():
     fill(overlay, NAVY)
     if LOGO.exists():
         s.shapes.add_picture(str(LOGO), Inches(0.55), Inches(0.4), Inches(1.7), Inches(0.48))
-    kicker(s, Inches(0.55), Inches(1.15), Inches(6), "GAP-GUIDE-2026-001  ·  v1.1  ·  Issued")
+    kicker(s, Inches(0.55), Inches(1.15), Inches(6), "Official documentation  ·  v1.1  ·  Issued")
     add_text(s, Inches(0.55), Inches(1.6), Inches(6.4), Inches(2.2), "APN Opportunity — Lark Base guidelines", size=36, bold=True, color=WHITE)
     add_text(
         s,
@@ -168,13 +157,13 @@ def build():
         color=RGBColor(0xE8, 0xDF, 0xD2),
     )
     add_text(s, Inches(0.55), Inches(5.7), Inches(6.2), Inches(0.8), "GAP sales  ·  Malaysia, Indonesia, Vietnam\nKnowledge Transfer 14 September 2026", size=13, color=ORANGE)
-    footer(s, 1, light=True)
+    footer(s, light=True)
 
     # 2 Why
     s = prs.slides.add_slide(blank)
     cream_bg(s)
     pic(s, ASSETS / "apn-kt-why.png", 0, 0, Inches(5.4), H)
-    kicker(s, Inches(5.8), Inches(0.7), Inches(6.8), "2. Why Lark")
+    kicker(s, Inches(5.8), Inches(0.7), Inches(6.8), "Why Lark")
     add_text(s, Inches(5.8), Inches(1.15), Inches(6.8), Inches(1.2), "A different door into the same APN", size=28, bold=True, color=NAVY)
     add_para_box(
         s,
@@ -188,12 +177,12 @@ def build():
             ("You are not keeping a second set of books.", True, 16, NAVY),
         ],
     )
-    footer(s, 2)
+    footer(s)
 
     # 3 Tables
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "3. What you will see")
+    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "What you will see")
     add_text(s, Inches(0.5), Inches(0.62), Inches(12), Inches(0.5), "Only Submission is typed. Ignore Client management and funding.", size=22, bold=True, color=NAVY)
     tables = [
         ("APN Oppt Submission Table", "The only table you type into. Draft with Grid + Add Record. Send from Form. Watch Sync_Status on Grid."),
@@ -206,21 +195,20 @@ def build():
         l = Inches(0.5 + col * 6.4)
         t = Inches(1.35 + row * 2.7)
         card(s, l, t, Inches(6.15), Inches(2.5))
-        add_text(s, l + Inches(0.25), t + Inches(0.22), Inches(5.65), Inches(0.35), f"0{i+1}", size=12, bold=True, color=ORANGE)
-        add_text(s, l + Inches(0.25), t + Inches(0.55), Inches(5.65), Inches(0.55), title, size=16, bold=True, color=NAVY)
-        add_text(s, l + Inches(0.25), t + Inches(1.15), Inches(5.65), Inches(1.1), body, size=13, color=MUTE)
-    footer(s, 3)
+        add_text(s, l + Inches(0.25), t + Inches(0.35), Inches(5.65), Inches(0.55), title, size=16, bold=True, color=NAVY)
+        add_text(s, l + Inches(0.25), t + Inches(1.05), Inches(5.65), Inches(1.2), body, size=13, color=MUTE)
+    footer(s)
 
     # 4 Jobs
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "4. Which job?")
+    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "Which job?")
     add_text(s, Inches(0.5), Inches(0.62), Inches(12), Inches(0.45), "Pick one path. Do not mix Form, Add Record send, Retry, and Update.", size=20, bold=True, color=NAVY)
     jobs = [
-        (WARN_BG, "1a  Draft", "Every AM", "Grid → + Add Record\nLeave Submit unticked"),
-        (OK_BG, "1b  Send", "Every AM", "Form → Submit\nor tick Submit on a draft"),
-        (PAPER, "2  Change", "Every AM", "Only if Status is Approved\nGrid → Update"),
-        (NAVY, "3  Referral", "Sales admin", "Invitations table\nNo Form"),
+        (WARN_BG, "Draft", "Every AM", "Grid → + Add Record\nLeave Submit unticked"),
+        (OK_BG, "Send", "Every AM", "Form → Submit\nor tick Submit on a draft"),
+        (PAPER, "Change", "Every AM", "Only if Status is Approved\nGrid → Update"),
+        (NAVY, "Referral", "Sales admin", "Invitations table\nNo Form"),
     ]
     for i, (bg, title, who, click) in enumerate(jobs):
         l = Inches(0.4 + i * 3.22)
@@ -232,12 +220,12 @@ def build():
         add_text(s, l + Inches(0.18), Inches(2.75), Inches(2.7), Inches(2.1), click, size=14, color=bc)
     add_text(s, Inches(0.5), Inches(5.5), Inches(12), Inches(0.5), "Sales admin for referrals: Michael Nguyen (Vietnam) and Alvindo (Indonesia).", size=13, color=MUTE)
     pic(s, ASSETS / "apn-kt-three-doors.png", Inches(10.55), Inches(5.45), Inches(2.3), Inches(1.5))
-    footer(s, 4)
+    footer(s)
 
     # 5 Draft Add Record
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.45), Inches(0.28), Inches(12), "5.2  Draft — Grid + Add Record")
+    kicker(s, Inches(0.45), Inches(0.28), Inches(12), "Draft — Grid + Add Record")
     add_text(s, Inches(0.45), Inches(0.55), Inches(6.4), Inches(0.7), "Click + Add Record. Leave Submit off.", size=24, bold=True, color=NAVY)
     pic(s, ASSETS / "guide-grid-add-record.jpg", Inches(0.4), Inches(1.35), Inches(7.15), Inches(4.0))
     pic(s, ASSETS / "guide-add-record-button.jpg", Inches(0.4), Inches(5.45), Inches(7.15), Inches(1.45))
@@ -249,23 +237,22 @@ def build():
         "When ready: tick both. Set Pending if it does not move. Keep Action = Create.",
     ]
     y = Inches(1.35)
-    for i, step in enumerate(steps, 1):
+    for step in steps:
         card(s, Inches(7.75), y, Inches(5.1), Inches(0.95))
-        add_text(s, Inches(7.9), y + Inches(0.08), Inches(0.4), Inches(0.3), str(i), size=14, bold=True, color=ORANGE)
-        add_text(s, Inches(8.3), y + Inches(0.1), Inches(4.35), Inches(0.75), step, size=12, color=INK)
+        add_text(s, Inches(7.95), y + Inches(0.12), Inches(4.7), Inches(0.75), step, size=12, color=INK)
         y += Inches(1.02)
-    footer(s, 5)
+    footer(s)
 
     # 6 Form
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.45), Inches(0.28), Inches(12), "5.1  Send now — Form")
+    kicker(s, Inches(0.45), Inches(0.28), Inches(12), "Send now — Form")
     add_text(s, Inches(0.45), Inches(0.55), Inches(12), Inches(0.55), "One-shot Create. Fill, then Submit.", size=24, bold=True, color=NAVY)
     pic(s, ASSETS / "guide-form-fill.jpg", Inches(0.4), Inches(1.25), Inches(6.9), Inches(5.55))
     form_steps = [
-        ("1  Form", "Use Fill, not Edit. Fill required fields. Section 9 format."),
-        ("2  Submit", "Click Submit. Then open Grid."),
-        ("3  1 minute", "Sync_Status: Pending becomes Success or Failed."),
+        ("Form", "Use Fill, not Edit. Fill required fields. Follow the format rules."),
+        ("Submit", "Click Submit. Then open Grid."),
+        ("Wait one minute", "Sync_Status: Pending becomes Success or Failed."),
         ("If Failed", "Side Peek → Sync_Message → fix that field → Retry. Leave Action = Create. Do not click Update."),
     ]
     y = Inches(1.25)
@@ -275,12 +262,12 @@ def build():
         add_text(s, Inches(7.75), y + Inches(0.12), Inches(4.95), Inches(0.32), title, size=14, bold=True, color=BAD if title.startswith("If") else NAVY)
         add_text(s, Inches(7.75), y + Inches(0.48), Inches(4.95), Inches(0.62), body, size=12, color=MUTE)
         y += Inches(1.32)
-    footer(s, 6)
+    footer(s)
 
     # 7 Update
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "6. Update")
+    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "Update")
     add_text(s, Inches(0.5), Inches(0.62), Inches(12), Inches(0.5), "Only if Status is Approved. Do not type in Status.", size=22, bold=True, color=NAVY)
     cards7 = [
         (OK_BG, OK, "Go", "Approved. Edit on Submission. Click Update. Leave Action as Update."),
@@ -296,12 +283,12 @@ def build():
     add_text(s, Inches(0.7), Inches(4.4), Inches(7.1), Inches(0.4), "If Update then Failed", size=16, bold=True, color=NAVY)
     add_text(s, Inches(0.7), Inches(4.9), Inches(7.1), Inches(1.4), "Read Sync_Message. Fix that field. Click Update again. Do not click Retry on an Update.", size=15, color=MUTE)
     pic(s, ASSETS / "apn-kt-close.png", Inches(8.3), Inches(4.2), Inches(4.55), Inches(2.4))
-    footer(s, 7)
+    footer(s)
 
     # 8 Referral
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "7. Referral — sales admin")
+    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "Referral — sales admin")
     add_text(s, Inches(0.5), Inches(0.62), Inches(12), Inches(0.5), "No Form. The invitation row already exists.", size=22, bold=True, color=NAVY)
     pic(s, ASSETS / "apn-kt-referral.png", Inches(0.4), Inches(1.3), Inches(5.5), Inches(5.3))
     refs = [
@@ -313,17 +300,16 @@ def build():
         "AWS_Opportunity_ID appears. Status still takes about six hours.",
     ]
     y = Inches(1.3)
-    for i, step in enumerate(refs, 1):
+    for step in refs:
         card(s, Inches(6.15), y, Inches(6.7), Inches(0.78))
-        add_text(s, Inches(6.3), y + Inches(0.18), Inches(0.4), Inches(0.4), str(i), size=14, bold=True, color=ORANGE)
-        add_text(s, Inches(6.75), y + Inches(0.18), Inches(5.9), Inches(0.5), step, size=13, color=INK)
+        add_text(s, Inches(6.4), y + Inches(0.18), Inches(6.25), Inches(0.5), step, size=13, color=INK)
         y += Inches(0.85)
-    footer(s, 8)
+    footer(s)
 
     # 9 Clocks
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.5), Inches(0.28), Inches(12), "8. Two clocks and buttons")
+    kicker(s, Inches(0.5), Inches(0.28), Inches(12), "Two clocks and buttons")
     add_text(s, Inches(0.5), Inches(0.55), Inches(12), Inches(0.45), "Draft with ticks off does not start the 1-minute clock.", size=18, bold=True, color=NAVY)
     card(s, Inches(0.45), Inches(1.15), Inches(6.05), Inches(2.5), NAVY)
     add_text(s, Inches(0.7), Inches(1.35), Inches(5.5), Inches(0.35), "After Form Submit or Update", size=13, bold=True, color=ORANGE)
@@ -348,25 +334,24 @@ def build():
         add_text(s, Inches(7.0), y + Inches(0.18), Inches(2.6), Inches(0.4), row[1], size=13, bold=True, color=ORANGE if i else WHITE)
         add_text(s, Inches(9.8), y + Inches(0.18), Inches(2.7), Inches(0.4), row[2], size=13, bold=(i == 0), color=tc)
         y += Inches(0.75)
-    footer(s, 9)
+    footer(s)
 
     # 10 Format
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "9. Format — why rows Fail")
+    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "Format — why rows Fail")
     add_text(s, Inches(0.5), Inches(0.62), Inches(12), Inches(0.5), "Read Sync_Message and fix that field.", size=22, bold=True, color=NAVY)
     rules = [
-        ("01", "Problem ≥ 20 characters", "Customer need must be a real sentence or Sync_Status Fails."),
-        ("02", "Phone E.164", "+601121555525  — plus, country code, no spaces."),
-        ("03", "Launched Stage", "You must have AWS Account ID. Missing ID = Failed."),
+        ("Problem ≥ 20 characters", "Customer need must be a real sentence or Sync_Status Fails."),
+        ("Phone E.164", "+601121555525  — plus, country code, no spaces."),
+        ("Launched Stage", "You must have AWS Account ID. Missing ID = Failed."),
     ]
-    for i, (n, title, body) in enumerate(rules):
+    for i, (title, body) in enumerate(rules):
         l = Inches(0.45 + i * 4.25)
         card(s, l, Inches(1.4), Inches(4.05), Inches(4.6))
-        add_text(s, l + Inches(0.25), Inches(1.65), Inches(3.5), Inches(0.4), n, size=14, bold=True, color=ORANGE)
-        add_text(s, l + Inches(0.25), Inches(2.2), Inches(3.55), Inches(1.1), title, size=22, bold=True, color=NAVY)
-        add_text(s, l + Inches(0.25), Inches(3.5), Inches(3.55), Inches(1.8), body, size=15, color=MUTE)
-    footer(s, 10)
+        add_text(s, l + Inches(0.25), Inches(1.75), Inches(3.55), Inches(1.2), title, size=22, bold=True, color=NAVY)
+        add_text(s, l + Inches(0.25), Inches(3.2), Inches(3.55), Inches(2.0), body, size=15, color=MUTE)
+    footer(s)
 
     # 11 Go-live
     s = prs.slides.add_slide(blank)
@@ -374,7 +359,7 @@ def build():
     pic(s, ASSETS / "apn-kt-golive.png", Inches(6.5), 0, Inches(6.84), H)
     overlay = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(7.3), H)
     fill(overlay, NAVY)
-    kicker(s, Inches(0.55), Inches(0.7), Inches(6.3), "10–12  Existing and go-live")
+    kicker(s, Inches(0.55), Inches(0.7), Inches(6.3), "Existing opportunities and go-live")
     add_text(s, Inches(0.55), Inches(1.2), Inches(6.3), Inches(1.4), "18 September 2026", size=36, bold=True, color=WHITE)
     add_para_box(
         s,
@@ -388,15 +373,15 @@ def build():
             ("Until then you may practise Add Record. Do not tick Submit on a real customer.", False, 16, RGBColor(0xE8, 0xDF, 0xD2)),
         ],
     )
-    footer(s, 11, light=True)
+    footer(s, light=True)
 
     # 12 Help
     s = prs.slides.add_slide(blank)
     cream_bg(s)
-    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "11. If you are stuck")
+    kicker(s, Inches(0.5), Inches(0.32), Inches(12), "If you are stuck")
     add_text(s, Inches(0.5), Inches(0.62), Inches(12), Inches(0.5), "Error, bug, or unclear Sync_Message?", size=24, bold=True, color=NAVY)
     card(s, Inches(0.45), Inches(1.35), Inches(6.15), Inches(4.6), NAVY)
-    add_text(s, Inches(0.7), Inches(1.55), Inches(5.7), Inches(0.35), "01  ·  APN TroubleShoot", size=13, bold=True, color=ORANGE)
+    add_text(s, Inches(0.7), Inches(1.55), Inches(5.7), Inches(0.35), "APN TroubleShoot", size=13, bold=True, color=ORANGE)
     add_text(s, Inches(0.7), Inches(2.0), Inches(5.7), Inches(0.7), "Ask in this group. Always send three things:", size=16, color=WHITE)
     add_para_box(
         s,
@@ -405,18 +390,18 @@ def build():
         Inches(5.7),
         Inches(2.6),
         [
-            ("1. Your Oppt ID", True, 18, WHITE),
-            ("2. Your Status (Sync_Status / AWS_Review_Status)", True, 18, WHITE),
-            ("3. Your Sync_Message", True, 18, WHITE),
+            ("Your Oppt ID", True, 18, WHITE),
+            ("Your Status (Sync_Status / AWS_Review_Status)", True, 18, WHITE),
+            ("Your Sync_Message", True, 18, WHITE),
         ],
     )
     card(s, Inches(6.85), Inches(1.35), Inches(5.95), Inches(2.15), WARN_BG)
-    add_text(s, Inches(7.1), Inches(1.55), Inches(5.5), Inches(0.35), "02  ·  APN flow", size=13, bold=True, color=ORANGE)
+    add_text(s, Inches(7.1), Inches(1.55), Inches(5.5), Inches(0.35), "APN flow", size=13, bold=True, color=ORANGE)
     add_text(s, Inches(7.1), Inches(2.0), Inches(5.5), Inches(0.5), "Ask Eylia", size=22, bold=True, color=NAVY)
     add_text(s, Inches(7.1), Inches(2.55), Inches(5.5), Inches(0.5), "+6016-4244515  ·  or Azib / APN champions", size=14, color=INK)
     pic(s, ASSETS / "apn-kt-help.png", Inches(6.85), Inches(3.7), Inches(5.95), Inches(2.25))
     add_text(s, Inches(0.5), Inches(6.15), Inches(12), Inches(0.4), "Do not patch AWS_Review_Status by hand.", size=14, bold=True, color=BAD)
-    footer(s, 12)
+    footer(s)
 
     prs.save(str(OUT))
     print(OUT)
