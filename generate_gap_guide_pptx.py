@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""16:9 PowerPoint of GAP-GUIDE-2026-001 from the HTML guideline."""
+"""16:9 PowerPoint of the APN Opportunity Lark Base guidelines."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from pptx.util import Inches, Pt
 ROOT = Path(__file__).resolve().parent
 ASSETS = ROOT / "assets"
 LOGO = ROOT.parent / "gasiapac-official-doc-assets" / "g-asiapacific-logo-black.png"
-OUT = ROOT / "GAP-GUIDE-2026-001-APN-Opportunity-Lark-Base.pptx"
+OUT = ROOT / "APN-Opportunity-Lark-Base.pptx"
 
 NAVY = RGBColor(0x1B, 0x2A, 0x4A)
 CREAM = RGBColor(0xF4, 0xEF, 0xE4)
