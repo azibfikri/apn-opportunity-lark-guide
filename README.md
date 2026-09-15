@@ -5,6 +5,7 @@ GAP-GUIDE-2026-001 v1.1. Knowledge Transfer HTML for GAP sales (Malaysia, Indone
 - Walkthrough: `/` (`index.html`)
 - Written guideline: `/guide.html`
 - A4 PDF: `GAP-GUIDE-2026-001-APN-Opportunity-Lark-Base.pdf`
+- PowerPoint: `GAP-GUIDE-2026-001-APN-Opportunity-Lark-Base.pptx` (12 slides, same outline as the HTML)
 
 Live Base: https://g-asiapac.sg.larksuite.com/base/Xtx2b48FRabZewsZtqol0lfagOb
 
